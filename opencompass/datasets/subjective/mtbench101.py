@@ -4,7 +4,7 @@ import os.path as osp
 import re
 from typing import Optional
 
-from datasets import Dataset, DatasetDict
+from datasets import Dataset as HuggingFaceDataset, DatasetDict
 from torch.utils.data import DataLoader, Dataset
 
 from opencompass.registry import LOAD_DATASET
@@ -122,7 +122,7 @@ Scoring Guidelines:\n\
 \n \
 In addition to the score, please provide an explanation that specifically addresses how the AI assistant's response demonstrates its ability or inability to understand and use referential information in accordance with the criteria above. "
 
-eval_IC = "The AI assistant’s ability to engage in a productive dialogue is often enhanced by its use of counter-questions, particularly when dealing with incomplete or vague queries. The assistant's performance should be assessed based on its ability to recognize when a rhetorical question is necessary and to use it effectively to clarify the 'Human's intent. The evaluation criteria are as follows:\n \
+eval_IC = "The AI assistant's ability to engage in a productive dialogue is often enhanced by its use of counter-questions, particularly when dealing with incomplete or vague queries. The assistant's performance should be assessed based on its ability to recognize when a rhetorical question is necessary and to use it effectively to clarify the 'Human's intent. The evaluation criteria are as follows:\n \
 \n \
 1. Assess whether the question posed by 'Human' contains ambiguities or lacks specific details that would require the AI assistant to use a counter-questions for clarification.\n \
 2. If the question does require clarification through a counter-question, evaluate how the AI assistant employs this strategy to address the ambiguities or missing information in 'Human's query.\n \
@@ -201,7 +201,7 @@ Please provide a rationale for your score, specifically addressing the accuracy 
 
 eval_GR = "The AI assistant's general reasoning capabilities are crucial for accurately addressing and explaining a wide range of problems posed by 'Human'. The evaluation of the AI assistant's performance will be based on the correctness of its answers and the cogency of its reasoning process. The evaluation criteria are as follows:\n\
 \n\
-1. Verify the accuracy of the AI assistant's answer against the provided reference solution in format ‘### reference solution ###‘ for the specific problem.\n\
+1. Verify the accuracy of the AI assistant's answer against the provided reference solution in format '### reference solution ###' for the specific problem.\n\
 2. Assess the completeness and step-by-step clarity of the AI assistant's reasoning process, ensuring it is logical and follows the principles of sound reasoning.\n\
 3. Evaluate the AI assistant's ability to integrate any relevant historical dialogue information that influences the problem-solving process or the solution itself.\n\
 4. Appraise the AI assistant's communication of the solution in a manner that is understandable and instructive to 'Human', potentially aiding their learning or comprehension.\n\
@@ -323,5 +323,5 @@ class MTBench101Dataset(BaseDataset):
                 })
                 history = history + assistant
 
-        dataset = Dataset.from_list(raw_data)
+        dataset = HuggingFaceDataset.from_list(raw_data)
         return dataset
